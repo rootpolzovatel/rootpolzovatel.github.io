@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Регистрация на олимпиаду</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      padding: 2rem;
+      line-height: 1.5;
+      color: #333;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    h1 { text-align: center; color: #0078d7; }
+    form {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label { display: block; margin-top: 1rem; font-weight: bold; }
+    input, select, textarea, button {
+      width: 100%; padding: 8px; margin-top: 4px;
+      border: 1px solid #ccc; border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      background: #0078d7; color: #fff; font-size: 16px;
+      cursor: pointer; margin-top: 1rem;
+    }
+    button:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <h1>Регистрация на олимпиаду</h1>
+  <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <label>Фамилия*<input type="text" name="surname" required></label>
+    <label>Имя*<input type="text" name="name" required></label>
+    <label>Отчество<input type="text" name="patronymic"></label>
+    <label>Класс*<input type="text" name="grade" required></label>
+    <label>Сложность*
+      <select name="difficulty" required>
+        <option value="">-- выберите --</option>
+        <option>Лёгкий</option>
+        <option>Средний</option>
+        <option>Сложный</option>
+      </select>
+    </label>
+    <label>Email для связи*<input type="email" name="email" required></label>
+    <label>Ссылка на проект в Scratch
+      <input type="url" name="scratch_link" placeholder="https://scratch.mit.edu/projects/...">
+    </label>
+    <label>
+      <input type="checkbox" name="consent" required>
+      Родитель/законный представитель дал согласие на участие и обработку данных
+    </label>
+    <button type="submit">Отправить</button>
+  </form>
+</body>
+</html>
