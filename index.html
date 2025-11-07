@@ -5,103 +5,111 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Регистрация и задания</title>
 <style>
-  body {
-    font-family: "Segoe UI", sans-serif;
-    background-color: #d7def4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-  }
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #d7def4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 0;
+}
 
-  .container {
-    background-color: #fff;
-    border-radius: 24px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 480px;
-    max-width: 90%;
-    padding: 40px;
-    text-align: center;
-    transition: all 0.3s ease;
-  }
+.container {
+  background-color: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 480px;
+  max-width: 95%;
+  padding: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
 
-  h1 {
-    background: linear-gradient(90deg, #6574cd, #c56f5a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-size: 28px;
-    margin-bottom: 24px;
-  }
+#tasksPage {
+  width: 600px; /* шире окно с заданиями */
+}
 
-  form, .tasks {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    text-align: left;
-  }
+h1 {
+  background: linear-gradient(90deg, #6574cd, #c56f5a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
 
-  input, select, textarea {
-    padding: 10px 14px;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    font-size: 15px;
-    transition: 0.2s;
-  }
+form, .tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
 
-  input:focus, select:focus, textarea:focus {
-    border-color: #7d8ff5;
-    outline: none;
-    box-shadow: 0 0 4px rgba(125, 143, 245, 0.5);
-  }
+input, select, textarea {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 15px;
+  transition: 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-  button {
-    background: linear-gradient(90deg, #7d8ff5, #c56f5a);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
+input:focus, select:focus, textarea:focus {
+  border-color: #7d8ff5;
+  outline: none;
+  box-shadow: 0 0 4px rgba(125, 143, 245, 0.5);
+}
 
-  button:hover {
-    opacity: 0.9;
-  }
+button {
+  background: linear-gradient(90deg, #7d8ff5, #c56f5a);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-  .difficulty {
-    background-color: #f7f8fc;
-    border-radius: 12px;
-    padding: 10px;
-    font-weight: bold;
-    color: #5f6ab7;
-    text-align: center;
-  }
+button:hover {
+  opacity: 0.9;
+}
 
-  .hidden { display: none; }
+.difficulty {
+  background-color: #f7f8fc;
+  border-radius: 12px;
+  padding: 10px;
+  font-weight: bold;
+  color: #5f6ab7;
+  text-align: center;
+}
 
-  footer {
-    margin-top: 24px;
-    font-size: 12px;
-    color: #999;
-    text-align: center;
-  }
+.hidden { display: none; }
 
-  label { font-weight: bold; }
+footer {
+  margin-top: 24px;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+}
+
+.tasks h3 { margin-top: 24px; color: #6574cd; }
+.tasks label { font-weight: bold; margin-top: 12px; }
 </style>
 </head>
 <body>
 
 <div class="container" id="registerForm">
   <h1>Регистрация</h1>
-  <form id="form" action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
-    <input type="text" name="lastname" id="lastname" placeholder="Фамилия*" required />
-    <input type="text" name="firstname" id="firstname" placeholder="Имя*" required />
-    <input type="text" name="middlename" id="middlename" placeholder="Отчество" />
-    <input type="tel" name="phone" id="phone" placeholder="Номер" />
+  <form id="form">
+    <input type="text" id="lastname" placeholder="Фамилия*" required />
+    <input type="text" id="firstname" placeholder="Имя*" required />
+    <input type="text" id="middlename" placeholder="Отчество" />
+    <input type="tel" id="phone" placeholder="Номер" />
 
-    <select name="class" id="classSelect" required>
+    <select id="classSelect" required>
       <option value="" disabled selected>Выберите класс</option>
       <option value="4">4 класс</option>
       <option value="5">5 класс</option>
@@ -114,9 +122,9 @@
     </select>
 
     <div class="difficulty" id="difficulty">Сложность: —</div>
-    <input type="hidden" name="difficulty" id="difficultyInput">
+    <input type="hidden" id="difficultyInput">
 
-    <button type="submit">Перейти к заданиям</button>
+    <button type="button" id="toTasksBtn">Перейти к заданиям</button>
   </form>
   <footer>© 2025 Iserv Education</footer>
 </div>
@@ -152,21 +160,37 @@
 
     <label>Задание №8. Разработайте программное обеспечение для игры в крестики-нолики, исключив реализацию логики определения победы</label>
     <input type="url" placeholder="Ссылка на решение в Scratch" />
+
+    <button id="finishBtn" style="margin-top:20px;">Завершить олимпиаду</button>
   </div>
-  <button onclick="goBack()">Назад</button>
 </div>
+
+<form id="hiddenSubmitForm" action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self" class="hidden">
+  <input name="lastname" id="hiddenLastname">
+  <input name="firstname" id="hiddenFirstname">
+  <input name="middlename" id="hiddenMiddlename">
+  <input name="phone" id="hiddenPhone">
+  <input name="class" id="hiddenClass">
+  <input name="difficulty" id="hiddenDifficulty">
+</form>
 
 <script>
 const classSelect = document.getElementById("classSelect");
 const difficultyDiv = document.getElementById("difficulty");
 const difficultyInput = document.getElementById("difficultyInput");
-const form = document.getElementById("form");
 const registerForm = document.getElementById("registerForm");
 const tasksPage = document.getElementById("tasksPage");
-const userInfo = document.getElementById("userInfo");
-const phoneInput = document.getElementById("phone");
+const toTasksBtn = document.getElementById("toTasksBtn");
 
-classSelect.addEventListener("change", () => {
+toTasksBtn.addEventListener("click", () => {
+  // Проверка обязательных полей
+  if (!document.getElementById("lastname").value.trim() ||
+      !document.getElementById("firstname").value.trim() ||
+      !classSelect.value) {
+    alert("Пожалуйста, заполните все обязательные поля.");
+    return;
+  }
+  // Сохраняем сложность
   const grade = parseInt(classSelect.value);
   let diff = "—";
   if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
@@ -174,24 +198,32 @@ classSelect.addEventListener("change", () => {
   else diff = "Продвинутый уровень (10–11 класс)";
   difficultyDiv.textContent = `Сложность: ${diff}`;
   difficultyInput.value = diff;
-});
 
-// Показ страницы с заданиями после submit
-form.addEventListener("submit", () => {
+  // Показ страницы заданий
   registerForm.classList.add("hidden");
   tasksPage.classList.remove("hidden");
-  userInfo.innerHTML = `
+
+  document.getElementById("userInfo").innerHTML = `
     <strong>${document.getElementById("lastname").value} ${document.getElementById("firstname").value} ${document.getElementById("middlename").value}</strong><br>
     Класс: ${classSelect.value}<br>
-    Телефон: ${phoneInput.value}<br>
+    Телефон: ${document.getElementById("phone").value}<br>
     ${difficultyDiv.textContent}
   `;
 });
 
-function goBack() {
-  tasksPage.classList.add("hidden");
-  registerForm.classList.remove("hidden");
-}
+// Кнопка завершения олимпиады — отправка данных на Google Apps Script
+document.getElementById("finishBtn").addEventListener("click", () => {
+  document.getElementById("hiddenLastname").value = document.getElementById("lastname").value;
+  document.getElementById("hiddenFirstname").value = document.getElementById("firstname").value;
+  document.getElementById("hiddenMiddlename").value = document.getElementById("middlename").value;
+  document.getElementById("hiddenPhone").value = document.getElementById("phone").value;
+  document.getElementById("hiddenClass").value = classSelect.value;
+  document.getElementById("hiddenDifficulty").value = difficultyInput.value;
+
+  alert("Форма отправляется. Спасибо за участие!");
+  document.getElementById("hiddenSubmitForm").submit();
+});
 </script>
+
 </body>
 </html>
