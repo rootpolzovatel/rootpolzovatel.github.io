@@ -191,13 +191,16 @@ toTasksBtn.addEventListener("click", () => {
     return;
   }
   // Сохраняем сложность
-  const grade = parseInt(classSelect.value);
-  let diff = "—";
-  if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
-  else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
-  else diff = "Продвинутый уровень (10–11 класс)";
-  difficultyDiv.textContent = `Сложность: ${diff}`;
-  difficultyInput.value = diff;
+    classSelect.addEventListener("change", () => {
+    const grade = parseInt(classSelect.value);
+    let diff = "—";
+    if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
+    else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
+    else diff = "Продвинутый уровень (10–11 класс)";
+    
+    difficultyDiv.textContent = `Сложность: ${diff}`;
+    difficultyInput.value = diff; // это поле для внутреннего использования
+  });
 
   // Показ страницы заданий
   registerForm.classList.add("hidden");
