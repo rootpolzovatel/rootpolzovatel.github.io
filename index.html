@@ -37,14 +37,6 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      text-align: left;
-    }
-
-    label {
-      display: flex;
-      flex-direction: column;
-      font-weight: bold;
-      font-size: 14px;
     }
 
     input, select {
@@ -53,7 +45,6 @@
       border-radius: 12px;
       font-size: 15px;
       transition: 0.2s;
-      margin-top: 4px;
     }
 
     input:focus, select:focus {
@@ -83,59 +74,104 @@
       padding: 10px;
       font-weight: bold;
       color: #5f6ab7;
-      text-align: center;
+    }
+
+    .hidden {
+      display: none;
     }
 
     footer {
       margin-top: 24px;
       font-size: 12px;
       color: #999;
-      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+
+  <div class="container" id="registerForm">
     <h1>Регистрация</h1>
-    <form action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
-      <label>Фамилия*<input name="lastname" required></label>
-      <label>Имя*<input name="firstname" required></label>
-      <label>Отчество<input name="middlename"></label>
-      <label>Номер<input name="phone"></label>
-      <label>Класс*
-        <select name="class" id="classSelect" required>
-          <option value="" disabled selected>Выберите класс</option>
-          <option value="4">4 класс</option>
-          <option value="5">5 класс</option>
-          <option value="6">6 класс</option>
-          <option value="7">7 класс</option>
-          <option value="8">8 класс</option>
-          <option value="9">9 класс</option>
-          <option value="10">10 класс</option>
-          <option value="11">11 класс</option>
-        </select>
-      </label>
+    <form id="form" action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
+      <input type="text" name="lastname" id="lastname" placeholder="Фамилия*" required />
+      <input type="text" name="firstname" id="firstname" placeholder="Имя*" required />
+      <input type="text" name="middlename" id="middlename" placeholder="Отчество" />
+      <input type="tel" name="phone" id="phone" placeholder="Номер" />
+
+      <select name="class" id="classSelect" required>
+        <option value="" disabled selected>Выберите класс</option>
+        <option value="4">4 класс</option>
+        <option value="5">5 класс</option>
+        <option value="6">6 класс</option>
+        <option value="7">7 класс</option>
+        <option value="8">8 класс</option>
+        <option value="9">9 класс</option>
+        <option value="10">10 класс</option>
+        <option value="11">11 класс</option>
+      </select>
+
       <div class="difficulty" id="difficulty">Сложность: —</div>
       <input type="hidden" name="difficulty" id="difficultyInput">
+
       <button type="submit">Отправить</button>
     </form>
-    <footer>© 2025 Iserv Образование</footer>
+    <footer>© 2025 Iserv Education</footer>
+  </div>
+
+  <div class="container hidden" id="tasksPage">
+    <h1>Ваши задания</h1>
+    <p id="userInfo"></p>
+    <p>Скоро здесь появятся ваши вопросы и поле для ссылки на проект.</p>
+    <button onclick="goBack()">Назад</button>
   </div>
 
   <script>
     const classSelect = document.getElementById("classSelect");
     const difficultyDiv = document.getElementById("difficulty");
     const difficultyInput = document.getElementById("difficultyInput");
+    const form = document.getElementById("form");
+    const registerForm = document.getElementById("registerForm");
+    const tasksPage = document.getElementById("tasksPage");
+    const userInfo = document.getElementById("userInfo");
+    const phoneInput = document.getElementById("phone");
 
     classSelect.addEventListener("change", () => {
       const grade = parseInt(classSelect.value);
       let diff = "—";
       if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
       else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
-      else if (grade >= 10 && grade <= 11) diff = "Продвинутый уровень (10–11 класс)";
+      else diff = "Продвинутый уровень (10–11 класс)";
       difficultyDiv.textContent = `Сложность: ${diff}`;
       difficultyInput.value = diff;
     });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // проверка заполненности полей
+      if (!lastname.value.trim() || !firstname.value.trim() || !classSelect.value) {
+        alert("Пожалуйста, заполните все обязательные поля.");
+        return;
+      }
+
+      // отправка формы через fetch, чтобы осталась плавная работа страницы
+      const data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data })
+        .then(() => {
+          registerForm.classList.add("hidden");
+          tasksPage.classList.remove("hidden");
+          userInfo.innerHTML = `
+            <strong>${lastname.value} ${firstname.value} ${middlename.value}</strong><br>
+            Класс: ${classSelect.value}<br>
+            Телефон: ${phoneInput.value}<br>
+            ${difficultyDiv.textContent}
+          `;
+        })
+        .catch(() => alert("Ошибка при отправке формы."));
+    });
+
+    function goBack() {
+      tasksPage.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+    }
   </script>
 </body>
 </html>
