@@ -60,7 +60,7 @@ document.getElementById('regForm').addEventListener('submit', async function(e) 
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(this).entries());
 
-  const response = await fetch('https://script.google.com/macros/s/AKfycbwAOHpgSBJYiQhvd1p-6uUzfsU7N2QjXPxw4fXO1ST2KueRhBylXnL5WaDTERmTRtEV/exec', {
+  const response = await fetch('https://script.google.com/macros/s/AKfycbyD--eV9S7HzfKT0GoWs-7OL-vZFwpSK_QrLSmPKIM6pOJasNKtD17xbjdTkcC_A3J_/exec', {
     method: 'POST',
     body: JSON.stringify(formData),
     headers: { 'Content-Type': 'application/json' }
