@@ -1,90 +1,38 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Регистрация на олимпиадwwу</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Регистрация на олимпиаду</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
-      padding: 2rem;
-      line-height: 1.5;
-      color: #333;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    h1 { text-align: center; color: #0078d7; }
-    form {
-      background: #fff;
-      padding: 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    label { display: block; margin-top: 1rem; font-weight: bold; }
-    input, select, textarea, button {
-      width: 100%; padding: 8px; margin-top: 4px;
-      border: 1px solid #ccc; border-radius: 6px;
-      box-sizing: border-box;
-    }
-    button {
-      background: #0078d7; color: #fff; font-size: 16px;
-      cursor: pointer; margin-top: 1rem;
-    }
-    button:hover { background: #005fa3; }
+    body { font-family: sans-serif; background:#f8f9fa; padding:2rem; max-width:700px; margin:auto; }
+    form { background:#fff; padding:1.5rem; border-radius:10px; box-shadow:0 0 8px rgba(0,0,0,0.1); }
+    label { display:block; margin-top:1rem; }
+    input, select, button { width:100%; padding:8px; margin-top:4px; }
+    button { background:#0078d7; color:#fff; border:none; cursor:pointer; }
+    button:hover { background:#005fa3; }
   </style>
 </head>
 <body>
   <h1>Регистрация на олимпиаду</h1>
-  <form id="regForm">
-  <label>Фамилия*<input type="text" name="surname" required></label>
-  <label>Имя*<input type="text" name="name" required></label>
-  <label>Отчество<input type="text" name="patronymic"></label>
-  <label>Класс*<input type="text" name="grade" required></label>
-  <label>Сложность*
-    <select name="difficulty" required>
-      <option value="">-- выберите --</option>
-      <option>Лёгкий</option>
-      <option>Средний</option>
-      <option>Сложный</option>
-    </select>
-  </label>
-  <label>Email*<input type="email" name="email" required></label>
-  <label>Ссылка на проект в Scratch<input type="url" name="scratch_link"></label>
-  <label><input type="checkbox" name="consent" required> Согласие родителей*</label>
-  <button type="submit">Отправить</button>
-</form>
 
-<script>
-document.getElementById('regForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const formData = Object.fromEntries(new FormData(this).entries());
-
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbzIfTABJ4NbLWOWaiKA56jpTAfsXi2AuEftjRQuyc3mncbUOdIilHe-3G-uJqnw2NQc/exec';
-  const proxyURL = 'https://corsproxy.io/?' + encodeURIComponent(scriptURL);
-
-  try {
-    const response = await fetch(proxyURL, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    if (!response.ok) throw new Error('HTTP ' + response.status);
-
-    const result = await response.json();
-    if (result.result === 'success') {
-      alert('Регистрация успешно отправлена!');
-      this.reset();
-    } else {
-      alert('Ответ получен, но что-то пошло не так.');
-    }
-  } catch (err) {
-    console.error(err);
-    alert('Ошибка при отправке формы. Попробуйте позже.');
-  }
-});
-</script>
-
+  <form action="https://script.google.com/macros/s/AKfycbwPRCFvPx_tnEH-Y8T-Cc8_EVHEKa-49tIy6L6Razgcp_K8LYQuRP9Cx1OIikSxqu6a/exec" method="POST" target="_self">
+    <label>Фамилия*<input name="surname" required></label>
+    <label>Имя*<input name="name" required></label>
+    <label>Отчество<input name="patronymic"></label>
+    <label>Класс*<input name="grade" required></label>
+    <label>Сложность*
+      <select name="difficulty" required>
+        <option value="">-- выберите --</option>
+        <option>Лёгкий</option>
+        <option>Средний</option>
+        <option>Сложный</option>
+      </select>
+    </label>
+    <label>Email*<input type="email" name="email" required></label>
+    <label>Ссылка на проект<input type="url" name="scratch_link"></label>
+    <label><input type="checkbox" name="consent" required> Согласие родителей*</label>
+    <button type="submit">Отправить</button>
+  </form>
 </body>
 </html>
