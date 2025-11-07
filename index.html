@@ -90,10 +90,11 @@
 <body>
   <h1>Регистрация</h1>
   <form action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
-    <label>Фамилия*<input name="surname" required></label>
-    <label>Имя*<input name="name" required></label>
-    <label>Отчество<input name="patronymic"></label>
-    <select id="grade" required>
+    <label>Фамилия*<input name="lastname" required></label>
+    <label>Имя*<input name="firstname" required></label>
+    <label>Отчество<input name="middlename"></label>
+    <label>Номер<input name="phone"></label>
+    <select id="class" required>
         <option value="" disabled selected>Выберите класс</option>
         <option value="4">4 класс</option>
         <option value="5">5 класс</option>
@@ -114,8 +115,8 @@
 classSelect.addEventListener("change", () => {
       const grade = parseInt(classSelect.value);
       let diff = "—";
-      if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
-      else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
+      if (class >= 4 && class <= 6) diff = "Начальный уровень (5–6 класс)";
+      else if (class >= 7 && class <= 9) diff = "Средний уровень (7–9 класс)";
       else diff = "Продвинутый уровень (10–11 класс)";
       difficultyDiv.textContent = `Сложность: ${diff}`;
     });
