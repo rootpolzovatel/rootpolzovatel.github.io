@@ -14,9 +14,12 @@
   </style>
 </head>
 <body>
-  <h1>Регистрация на олимпиаду_1</h1>
+  <h1>Регистрация на олимпиаду_2</h1>
 
-  <form action="https://script.google.com/macros/s/AKfycbwPRCFvPx_tnEH-Y8T-Cc8_EVHEKa-49tIy6L6Razgcp_K8LYQuRP9Cx1OIikSxqu6a/exec" method="POST" target="_self">
+  <form action="https://script.google.com/macros/s/ТВОЙ_URL/exec" 
+      method="POST" 
+      enctype="multipart/form-data" 
+      target="_self">
     <label>Фамилия*<input name="surname" required></label>
     <label>Имя*<input name="name" required></label>
     <label>Отчество<input name="patronymic"></label>
@@ -30,7 +33,12 @@
       </select>
     </label>
     <label>Email*<input type="email" name="email" required></label>
-    <label>Ссылка на проект<input type="url" name="scratch_link"></label>
+    <label>Файл проекта (.sb3)
+      <input type="file" name="projectFile" accept=".sb3">
+    </label>
+    <label>или Ссылка на проект
+      <input type="url" name="scratch_link">
+    </label>
     <label><input type="checkbox" name="consent" required> Согласие родителей*</label>
     <button type="submit">Отправить</button>
   </form>
