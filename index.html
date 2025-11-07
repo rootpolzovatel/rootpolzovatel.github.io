@@ -1,37 +1,207 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Регистрация на олимпиаду</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Регистрация участника олимпиады</title>
   <style>
-    body { font-family: sans-serif; background:#f8f9fa; padding:2rem; max-width:700px; margin:auto; }
-    form { background:#fff; padding:1.5rem; border-radius:10px; box-shadow:0 0 8px rgba(0,0,0,0.1); }
-    label { display:block; margin-top:1rem; }
-    input, select, button { width:100%; padding:8px; margin-top:4px; }
-    button { background:#0078d7; color:#fff; border:none; cursor:pointer; }
-    button:hover { background:#005fa3; }
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #d7def4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 420px;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      background: linear-gradient(90deg, #6574cd, #c56f5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    input, select {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    input:focus, select:focus {
+      border-color: #7d8ff5;
+      outline: none;
+      box-shadow: 0 0 4px rgba(125, 143, 245, 0.5);
+    }
+
+    button {
+      background: linear-gradient(90deg, #7d8ff5, #c56f5a);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .difficulty {
+      background-color: #f7f8fc;
+      border-radius: 12px;
+      padding: 10px;
+      font-weight: bold;
+      color: #5f6ab7;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .success {
+      background-color: #f1f8f4;
+      color: #356d47;
+      border: 1px solid #a7d7b1;
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
   </style>
 </head>
 <body>
-  <h1>Регистрация на олимпиаду_4</h1>
-  <form action="https://script.google.com/macros/s/AKfycbyaC7Uwg14PbriG3HK7EHb7vjAztBpGeFS5W6_ym5gO-9Du1iwa0lN1KTcgEIo4i5Yh/exec" method="POST" target="_self">
-    <label>Фамилия*<input name="surname" required></label>
-    <label>Имя*<input name="name" required></label>
-    <label>Отчество<input name="patronymic"></label>
-    <label>Класс*<input name="grade" required></label>
-    <label>Сложность*
-      <select name="difficulty" required>
-        <option value="">-- выберите --</option>
-        <option>Лёгкий</option>
-        <option>Средний</option>
-        <option>Сложный</option>
+
+  <div class="container" id="registerForm">
+    <h1>Регистрация участника</h1>
+    <form id="form">
+      <input type="text" id="lastname" placeholder="Фамилия" required />
+      <input type="text" id="firstname" placeholder="Имя" required />
+      <input type="text" id="middlename" placeholder="Отчество" required />
+      <input type="tel" id="phone" placeholder="Номер телефона" required pattern="^(\+7|8)\d{10}$" title="Введите номер в формате +7XXXXXXXXXX или 8XXXXXXXXXX" />
+
+      <select id="class" required>
+        <option value="" disabled selected>Выберите класс</option>
+        <option value="4">4 класс</option>
+        <option value="5">5 класс</option>
+        <option value="6">6 класс</option>
+        <option value="7">7 класс</option>
+        <option value="8">8 класс</option>
+        <option value="9">9 класс</option>
+        <option value="10">10 класс</option>
+        <option value="11">11 класс</option>
       </select>
-    </label>
-    <label>Email*<input type="email" name="email" required></label>
-    <label>Ссылка на проект Scratch*<input type="url" name="scratch_link" required></label>
-    <label><input type="checkbox" name="consent" required> Согласие родителей*</label>
-    <button type="submit">Отправить</button>
-  </form>
+
+      <div class="difficulty" id="difficulty">Сложность: —</div>
+      <button type="submit">Продолжить</button>
+    </form>
+    <footer>© 2025 iServ Education</footer>
+  </div>
+
+  <div class="container hidden" id="tasksPage">
+    <h1>Ваши задания</h1>
+    <p class="success">Регистрация успешно завершена!</p>
+    <p id="userInfo"></p>
+    <p>Скоро здесь появятся ваши вопросы и поле для ввода ссылки на проект Scratch.</p>
+    <button onclick="goBack()">Назад</button>
+  </div>
+
+  <script>
+    // 🔗 ВСТАВЬ сюда свой URL Google Script:
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbylW8pOYyRLB2ULDcrQOo02b-c8VYq6n9goFzOVlFoFgUAx855kSRqE-M5CnFRizeUb/exec';
+
+    const classSelect = document.getElementById("class");
+    const difficultyDiv = document.getElementById("difficulty");
+    const form = document.getElementById("form");
+    const registerForm = document.getElementById("registerForm");
+    const tasksPage = document.getElementById("tasksPage");
+    const userInfo = document.getElementById("userInfo");
+    const phoneInput = document.getElementById("phone");
+
+    // Автоматическое определение сложности
+    classSelect.addEventListener("change", () => {
+      const grade = parseInt(classSelect.value);
+      let diff = "—";
+      if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
+      else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
+      else diff = "Продвинутый уровень (10–11 класс)";
+      difficultyDiv.textContent = `Сложность: ${diff}`;
+    });
+
+    // Отправка формы
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const data = {
+        lastname: lastname.value.trim(),
+        firstname: firstname.value.trim(),
+        middlename: middlename.value.trim(),
+        phone: phoneInput.value.trim(),
+        class: classSelect.value,
+        difficulty: difficultyDiv.textContent.replace("Сложность: ", "")
+      };
+
+      if (!data.lastname || !data.firstname || !data.middlename || !data.phone || !data.class) {
+        alert("Пожалуйста, заполните все поля.");
+        return;
+      }
+
+      try {
+        const res = await fetch(scriptURL, {
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const result = await res.json();
+        if (result.result === "success") {
+          registerForm.classList.add("hidden");
+          tasksPage.classList.remove("hidden");
+          userInfo.innerHTML = `
+            <strong>${data.lastname} ${data.firstname} ${data.middlename}</strong><br>
+            Класс: ${data.class}<br>
+            Телефон: ${data.phone}<br>
+            Сложность: ${data.difficulty}
+          `;
+        } else {
+          alert("Ошибка при сохранении данных.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Не удалось отправить данные. Проверьте интернет или скрипт.");
+      }
+    });
+
+    function goBack() {
+      tasksPage.classList.add("hidden");
+      registerForm.classList.remove("hidden");
+    }
+  </script>
 </body>
 </html>
