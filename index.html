@@ -37,6 +37,14 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      text-align: left;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: bold;
+      font-size: 14px;
     }
 
     input, select {
@@ -45,6 +53,7 @@
       border-radius: 12px;
       font-size: 15px;
       transition: 0.2s;
+      margin-top: 4px;
     }
 
     input:focus, select:focus {
@@ -74,50 +83,59 @@
       padding: 10px;
       font-weight: bold;
       color: #5f6ab7;
-    }
-
-    .hidden {
-      display: none;
+      text-align: center;
     }
 
     footer {
       margin-top: 24px;
       font-size: 12px;
       color: #999;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h1>Регистрация</h1>
-  <form action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
-    <label>Фамилия*<input name="lastname" required></label>
-    <label>Имя*<input name="firstname" required></label>
-    <label>Отчество<input name="middlename"></label>
-    <label>Номер<input name="phone"></label>
-    <select id="class" required>
-        <option value="" disabled selected>Выберите класс</option>
-        <option value="4">4 класс</option>
-        <option value="5">5 класс</option>
-        <option value="6">6 класс</option>
-        <option value="7">7 класс</option>
-        <option value="8">8 класс</option>
-        <option value="9">9 класс</option>
-        <option value="10">10 класс</option>
-        <option value="11">11 класс</option>
-      </select>
-    <div class="difficulty" id="difficulty">Сложность: —</div>
-    <button type="submit">Отправить</button>
-  </form>
-  <footer>© 2025 Iserv Образование</footer>
-</body>
-</html>
-<script>
-classSelect.addEventListener("change", () => {
+  <div class="container">
+    <h1>Регистрация</h1>
+    <form action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self">
+      <label>Фамилия*<input name="lastname" required></label>
+      <label>Имя*<input name="firstname" required></label>
+      <label>Отчество<input name="middlename"></label>
+      <label>Номер<input name="phone"></label>
+      <label>Класс*
+        <select name="class" id="classSelect" required>
+          <option value="" disabled selected>Выберите класс</option>
+          <option value="4">4 класс</option>
+          <option value="5">5 класс</option>
+          <option value="6">6 класс</option>
+          <option value="7">7 класс</option>
+          <option value="8">8 класс</option>
+          <option value="9">9 класс</option>
+          <option value="10">10 класс</option>
+          <option value="11">11 класс</option>
+        </select>
+      </label>
+      <div class="difficulty" id="difficulty">Сложность: —</div>
+      <input type="hidden" name="difficulty" id="difficultyInput">
+      <button type="submit">Отправить</button>
+    </form>
+    <footer>© 2025 Iserv Образование</footer>
+  </div>
+
+  <script>
+    const classSelect = document.getElementById("classSelect");
+    const difficultyDiv = document.getElementById("difficulty");
+    const difficultyInput = document.getElementById("difficultyInput");
+
+    classSelect.addEventListener("change", () => {
       const grade = parseInt(classSelect.value);
       let diff = "—";
-      if (class >= 4 && class <= 6) diff = "Начальный уровень (5–6 класс)";
-      else if (class >= 7 && class <= 9) diff = "Средний уровень (7–9 класс)";
-      else diff = "Продвинутый уровень (10–11 класс)";
+      if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
+      else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
+      else if (grade >= 10 && grade <= 11) diff = "Продвинутый уровень (10–11 класс)";
       difficultyDiv.textContent = `Сложность: ${diff}`;
+      difficultyInput.value = diff;
     });
-</script>
+  </script>
+</body>
+</html>
