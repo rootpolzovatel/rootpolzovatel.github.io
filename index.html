@@ -74,6 +74,7 @@
       padding: 10px;
       font-weight: bold;
       color: #5f6ab7;
+      text-align: center;
     }
 
     .hidden {
@@ -144,28 +145,16 @@
       difficultyInput.value = diff;
     });
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      // проверка заполненности полей
-      if (!lastname.value.trim() || !firstname.value.trim() || !classSelect.value) {
-        alert("Пожалуйста, заполните все обязательные поля.");
-        return;
-      }
-
-      // отправка формы через fetch, чтобы осталась плавная работа страницы
-      const data = new FormData(form);
-      fetch(form.action, { method: 'POST', body: data })
-        .then(() => {
-          registerForm.classList.add("hidden");
-          tasksPage.classList.remove("hidden");
-          userInfo.innerHTML = `
-            <strong>${lastname.value} ${firstname.value} ${middlename.value}</strong><br>
-            Класс: ${classSelect.value}<br>
-            Телефон: ${phoneInput.value}<br>
-            ${difficultyDiv.textContent}
-          `;
-        })
-        .catch(() => alert("Ошибка при отправке формы."));
+    // Показ страницы заданий после submit — имитация, форма всё ещё отправится на Google Script
+    form.addEventListener("submit", () => {
+      registerForm.classList.add("hidden");
+      tasksPage.classList.remove("hidden");
+      userInfo.innerHTML = `
+        <strong>${document.getElementById("lastname").value} ${document.getElementById("firstname").value} ${document.getElementById("middlename").value}</strong><br>
+        Класс: ${classSelect.value}<br>
+        Телефон: ${phoneInput.value}<br>
+        ${difficultyDiv.textContent}
+      `;
     });
 
     function goBack() {
