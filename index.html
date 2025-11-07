@@ -11,13 +11,11 @@
     input, select, button { width:100%; padding:8px; margin-top:4px; }
     button { background:#0078d7; color:#fff; border:none; cursor:pointer; }
     button:hover { background:#005fa3; }
-    #status { margin-top:1rem; font-weight:bold; }
   </style>
 </head>
 <body>
-  <h1>Регистрация на олимпиаду_3_1</h1>
-
-  <form id="olympForm">
+  <h1>Регистрация на олимпиаду_4</h1>
+  <form action="https://script.google.com/macros/s/ВСТАВЬ_СВОЙ_URL/exec" method="POST" target="_self">
     <label>Фамилия*<input name="surname" required></label>
     <label>Имя*<input name="name" required></label>
     <label>Отчество<input name="patronymic"></label>
@@ -31,63 +29,9 @@
       </select>
     </label>
     <label>Email*<input type="email" name="email" required></label>
-    <label>Ссылка на проект<input type="url" name="scratch_link"></label>
-    <label>Файл проекта (.sb3)
-      <input type="file" name="projectFile" accept=".sb3">
-    </label>
+    <label>Ссылка на проект Scratch*<input type="url" name="scratch_link" required></label>
     <label><input type="checkbox" name="consent" required> Согласие родителей*</label>
     <button type="submit">Отправить</button>
-    <div id="status"></div>
   </form>
-
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxjL-f9YgUz-uR8fJRPXWb9Rsu8SGvlZJxQ8VDtXSiZWwdQpBZMD8RyJxfFa6Ng7eZ4/exec";
-
-    document.getElementById("olympForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const status = document.getElementById("status");
-      status.textContent = "Отправка данных...";
-
-      const form = e.target;
-      const fileInput = form.projectFile.files[0];
-      let fileBase64 = "", fileName = "";
-
-      if (fileInput) {
-        const buffer = await fileInput.arrayBuffer();
-        fileBase64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-        fileName = fileInput.name;
-      }
-
-      const data = {
-        surname: form.surname.value,
-        name: form.name.value,
-        patronymic: form.patronymic.value,
-        grade: form.grade.value,
-        difficulty: form.difficulty.value,
-        email: form.email.value,
-        scratch_link: form.scratch_link.value,
-        consent: form.consent.checked ? "Да" : "Нет",
-        fileName,
-        fileData: fileBase64
-      };
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: { "Content-Type": "application/json" }
-        });
-        const result = await response.json();
-        if (result.success) {
-          status.textContent = "✅ Заявка отправлена успешно!";
-          form.reset();
-        } else {
-          status.textContent = "❌ Ошибка: " + result.error;
-        }
-      } catch (err) {
-        status.textContent = "⚠️ Ошибка соединения: " + err.message;
-      }
-    });
-  </script>
 </body>
 </html>
