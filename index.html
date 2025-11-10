@@ -1,232 +1,374 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Регистрация и задания</title>
-<style>
-body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #d7def4;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  margin: 0;
-  padding: 40px 0;
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Регистрация и задания</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #d7def4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      background-image: radial-gradient(circle, #e6e9ff 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
 
-.container {
-  background-color: #fff;
-  border-radius: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 480px;
-  max-width: 95%;
-  padding: 40px;
-  text-align: center;
-  transition: all 0.3s ease;
-}
+    .container {
+      background-color: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      width: 480px;
+      max-width: 95%;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.3s ease;
+      transform: translateY(0);
+      opacity: 1;
+    }
 
-#tasksPage {
-  width: 600px; /* шире окно с заданиями */
-}
+    #tasksPage, #codingPage {
+      width: 720px;
+      transform: translateY(0);
+      opacity: 1;
+      max-width: 95vw;       
+      padding: 40px 32px;     
+    }
 
-h1 {
-  background: linear-gradient(90deg, #6574cd, #c56f5a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 28px;
-  margin-bottom: 24px;
-}
+    h1 {
+      background: linear-gradient(90deg, #6574cd, #c56f5a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 30px;
+      margin-bottom: 30px;
+      margin-top: 0px;
+      font-weight: 700;
+    }
 
-form, .tasks {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  text-align: left;
-}
+    form, .tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
 
-input, select, textarea {
-  padding: 10px 14px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  font-size: 15px;
-  transition: 0.2s;
-  width: 100%;
-  box-sizing: border-box;
-}
+    input, select, textarea {
+      padding: 10px 14px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      font-size: 15px;
+      transition: 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-input:focus, select:focus, textarea:focus {
-  border-color: #7d8ff5;
-  outline: none;
-  box-shadow: 0 0 4px rgba(125, 143, 245, 0.5);
-}
+    input:focus, select:focus, textarea:focus {
+      border-color: #7d8ff5;
+      outline: none;
+      box-shadow: 0 0 8px rgba(125, 143, 245, 0.3);
+    }
 
-button {
-  background: linear-gradient(90deg, #7d8ff5, #c56f5a);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  padding: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
+    button {
+      background: linear-gradient(90deg, #7d8ff5, #c56f5a);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 600; 
+      opacity: 0.6; 
+    }
 
-button:hover {
-  opacity: 0.9;
-}
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
 
-.difficulty {
-  background-color: #f7f8fc;
-  border-radius: 12px;
-  padding: 10px;
-  font-weight: bold;
-  color: #5f6ab7;
-  text-align: center;
-}
+    .difficulty {
+      background-color: #f0f2ff;
+      border: 1px dashed #a0a8e8;
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 600;
+      color: #5f6ab7;
+      margin: 16px 0;
+      font-size: 15px;
+    }
 
-.hidden { display: none; }
+    .hidden {
+      display: none;
+    }
 
-footer {
-  margin-top: 24px;
-  font-size: 12px;
-  color: #999;
-  text-align: center;
-}
+    footer {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
 
-.tasks h3 { margin-top: 24px; color: #6574cd; }
-.tasks label { font-weight: bold; margin-top: 12px; }
-</style>
+    .tasks h3 {
+      margin-top: 24px;
+      color: #6574cd;
+      font-weight: 600;
+    }
+
+    .tasks label {
+      font-weight: 500;
+      margin-top: 12px;
+      color: #333;
+    }
+
+    /* Анимация появления */
+    .container.fade-in {
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div class="container" id="registerForm">
-  <h1>Регистрация</h1>
-  <form id="form">
-    <input type="text" id="lastname" placeholder="Фамилия*" required />
-    <input type="text" id="firstname" placeholder="Имя*" required />
-    <input type="text" id="middlename" placeholder="Отчество" />
-    <input type="tel" id="phone" placeholder="Номер" />
+    <div class="container" id="registerForm">
+        <h1>Регистрация</h1>
+        <form id="form">
+        <input type="text" id="lastname" placeholder="Фамилия" required />
+        <input type="text" id="firstname" placeholder="Имя" required />
+        <input type="text" id="middlename" placeholder="Отчество" />
+        <input type="tel" id="phone" placeholder="Номер телефона" />
 
-    <select id="classSelect" required>
-      <option value="" disabled selected>Выберите класс</option>
-      <option value="4">4 класс</option>
-      <option value="5">5 класс</option>
-      <option value="6">6 класс</option>
-      <option value="7">7 класс</option>
-      <option value="8">8 класс</option>
-      <option value="9">9 класс</option>
-      <option value="10">10 класс</option>
-      <option value="11">11 класс</option>
-    </select>
+        <select id="classSelect" required>
+            <option value="" disabled selected>Выберите класс</option>
+            <option value="4">4 класс</option>
+            <option value="5">5 класс</option>
+            <option value="6">6 класс</option>
+            <option value="7">7 класс</option>
+            <option value="8">8 класс</option>
+            <option value="9">9 класс</option>
+            <option value="10">10 класс</option>
+            <option value="11">11 класс</option>
+        </select>
 
-    <div class="difficulty" id="difficulty">Сложность: —</div>
-    <input type="hidden" id="difficultyInput">
+        <div class="difficulty" id="difficulty">Сложность: —</div>
+        </form>
 
-    <button type="button" id="toTasksBtn">Перейти к заданиям</button>
-  </form>
-  <footer>© 2025 Iserv Education</footer>
-</div>
+        <button type="button" id="toTasksBtn">Перейти к заданиям</button>
+        <footer>© 2025 Iserv Образование</footer>
+    </div>
 
-<div class="container hidden" id="tasksPage">
-  <h1>Ваши задания</h1>
-  <p id="userInfo"></p>
-  <div class="tasks">
-    <h3>Блок «Базовые понятия информатики»</h3>
-    <label>Задание №1. Чем отличается комбинация клавиш Ctrl + C и Ctrl + V от Ctrl + X и Ctrl + V?</label>
-    <textarea placeholder="Ваш ответ" rows="2"></textarea>
+    <div class="container hidden" id="tasksPage">
+        <h1>Базовые понятия информатики</h1>
+        <div class="tasks">
+            <label>Задание №1. Чем отличается комбинация клавиш Ctrl + C и Ctrl + V от Ctrl + X и Ctrl + V?</label>
+            <textarea placeholder="Ваш ответ" rows="2"></textarea>
 
-    <label>Задание №2. Объясните, почему для компьютера не имеет значения, на каком языке программирования написана программа.</label>
-    <textarea placeholder="Ваш ответ" rows="2"></textarea>
+            <label>Задание №2. Объясните, почему для компьютера не имеет значения, на каком языке программирования написана программа.</label>
+            <textarea placeholder="Ваш ответ" rows="2"></textarea>
 
-    <label>Задание №3. Дайте определение термину «браузер»</label>
-    <textarea placeholder="Ваш ответ" rows="2"></textarea>
+            <label>Задание №3. Дайте определение термину «браузер»</label>
+            <textarea placeholder="Ваш ответ" rows="2"></textarea>
 
-    <label>Задание №4. Объясните, что такое ярлык, как он функционирует и что происходит при его удалении.</label>
-    <textarea placeholder="Ваш ответ" rows="2"></textarea>
+            <label>Задание №4. Объясните, что такое ярлык, как он функционирует и что происходит при его удалении.</label>
+            <textarea placeholder="Ваш ответ" rows="2"></textarea>
 
-    <label>Задание №5. Расшифруйте следующие аббревиатуры, используемые в информатике и вычислительной технике: ЦП, ГП, ОЗУ, ПЗУ.</label>
-    <textarea placeholder="Ваш ответ" rows="2"></textarea>
+            <label>Задание №5. Расшифруйте следующие аббревиатуры, используемые в информатике и вычислительной технике: ЦП, ГП, ОЗУ, ПЗУ.</label>
+            <textarea placeholder="Ваш ответ" rows="2"></textarea>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 24px;">
+                <button type="button" id="backToRegisterBtn" style="background: #9ca3af; width: 48%;">Назад</button>
+                <button type="button" id="toCodingBtn" style="width: 48%;">Перейти к программированию</button>
+            </div>
+        </div>
+    </div>
 
-    <h3>Блок «Программирование»</h3>
-    <p>Примечание: для выполнения заданий блока «Программирование» используйте Scratch.</p>
+    <div class="container hidden" id="codingPage">
+        <h1>Блок «Программирование»</h1>
+        <p><strong>Инструкция:</strong> используйте платформу Scratch для выполнения заданий.</p>
 
-    <label>Задание №6. Разработка анимационного проекта на платформе Scratch для заставки экрана в стиле DVD</label>
-    <input type="url" placeholder="Ссылка на решение в Scratch" />
+        <div class="tasks">
+            <!-- ЗАДАНИЕ 6: Уже есть — для примера -->
+            <label>Задание №6. Разработка анимационного проекта на платформе Scratch для заставки экрана в стиле DVD</label>
+            <input type="url" placeholder="Ссылка на решение в Scratch" id="task6" />
+            <div style="text-align: center; margin: 16px 0;">
+                <img src="DVD.gif" alt="Пример DVD-анимации в Scratch" style="max-width: 100%; border-radius: 12px; border: 2px solid #e0e0ff;">
+            </div>
+            <p style="font-size: 13px; color: #666; text-align: center; margin-top: -8px;">
+                Пример: движение спрайта по экрану с отскоком от краёв
+            </p>
 
-    <label>Задание №7. Разработайте программу для отображения секундомера</label>
-    <input type="url" placeholder="Ссылка на решение в Scratch" />
+            <!-- ЗАДАНИЕ 7: Секундомер -->
+            <label>Задание №7. Разработайте программу для отображения секундомера</label>
+            <input type="url" placeholder="Ссылка на решение в Scratch" id="task7" />
+            <div style="text-align: center; margin: 16px 0;">
+                <img src="TIME.gif" alt="Пример секундомера в Scratch" style="max-width: 100%; border-radius: 12px; border: 2px solid #e0e0ff;">
+            </div>
+            <p style="font-size: 13px; color: #666; text-align: center; margin-top: -8px;">
+                Пример: начало отсчёта времени с момента запуска программы
+            </p>
 
-    <label>Задание №8. Разработайте программное обеспечение для игры в крестики-нолики, исключив реализацию логики определения победы</label>
-    <input type="url" placeholder="Ссылка на решение в Scratch" />
+            <!-- ЗАДАНИЕ 8: Крестики-нолики -->
+            <label>Задание №8. Разработайте программу для игры в крестики-нолики, исключив реализацию логики определения победы</label>
+            <input type="url" placeholder="Ссылка на решение в Scratch" id="task8" />
+            <div style="text-align: center; margin: 16px 0;">
+                <img src="XO.gif" alt="Пример игры крестики-нолики в Scratch" style="max-width: 100%; border-radius: 12px; border: 2px solid #e0e0ff;">
+            </div>
+            <p style="font-size: 13px; color: #666; text-align: center; margin-top: -8px;">
+                Пример: поле 3×3, игроки ставят X и O по очереди
+            </p>
 
-    <button id="finishBtn" style="margin-top:20px;">Завершить олимпиаду</button>
-  </div>
-</div>
+            <div style="display: flex; justify-content: space-between; margin-top: 24px;">
+                <button type="button" id="backBtn" style="background: #9ca3af; width: 48%;">Назад</button>
+                <button type="button" id="finishBtn" style="width: 48%;">Завершить олимпиаду</button>
+            </div>
+        </div>
+    </div>
 
-<form id="hiddenSubmitForm" action="https://script.google.com/macros/s/AKfycbycV-5DNb2uD_IRRWgInnMo7rowAfHoJDcJBeaDDm0R38U_C5be8A_As2WMNvqnFFYp/exec" method="POST" target="_self" class="hidden">
-  <input name="lastname" id="hiddenLastname">
-  <input name="firstname" id="hiddenFirstname">
-  <input name="middlename" id="hiddenMiddlename">
-  <input name="phone" id="hiddenPhone">
-  <input name="class" id="hiddenClass">
-  <input name="difficulty" id="hiddenDifficulty">
-</form>
 
-<script>
-const classSelect = document.getElementById("classSelect");
-const difficultyDiv = document.getElementById("difficulty");
-const difficultyInput = document.getElementById("difficultyInput");
-const registerForm = document.getElementById("registerForm");
-const tasksPage = document.getElementById("tasksPage");
-const toTasksBtn = document.getElementById("toTasksBtn");
+    <form id="hiddenSubmitForm" action="https://script.google.com/macros/s/AKfycbzzSJfZllhPKEFfMPpDqHUEkzgtb3JvbChAt-kL_zFFc6avxqROKbK09_9MTTPOiGUQ/exec" method="POST" target="_self" class="hidden">
+        <input name="lastname" id="hiddenLastname">
+        <input name="firstname" id="hiddenFirstname">
+        <input name="middlename" id="hiddenMiddlename">
+        <input name="phone" id="hiddenPhone">
+        <input name="class" id="hiddenClass">
+        <input name="difficulty" id="hiddenDifficulty">
+    </form>
 
-toTasksBtn.addEventListener("click", () => {
-  // Проверка обязательных полей
-  if (!document.getElementById("lastname").value.trim() ||
-      !document.getElementById("firstname").value.trim() ||
-      !classSelect.value) {
-    alert("Пожалуйста, заполните все обязательные поля.");
-    return;
-  }
-  // Сохраняем сложность
-    classSelect.addEventListener("change", () => {
-    const grade = parseInt(classSelect.value);
-    let diff = "—";
-    if (grade >= 4 && grade <= 6) diff = "Начальный уровень (5–6 класс)";
-    else if (grade >= 7 && grade <= 9) diff = "Средний уровень (7–9 класс)";
-    else diff = "Продвинутый уровень (10–11 класс)";
-    
-    difficultyDiv.textContent = `Сложность: ${diff}`;
-    difficultyInput.value = diff; // это поле для внутреннего использования
-  });
+    <script>
+        const classSelect = document.getElementById("classSelect");
+        const difficultyDiv = document.getElementById("difficulty");
+        const registerForm = document.getElementById("registerForm");
+        const tasksPage = document.getElementById("tasksPage");
+        const codingPage = document.getElementById("codingPage");
 
-  // Показ страницы заданий
-  registerForm.classList.add("hidden");
-  tasksPage.classList.remove("hidden");
+        // --- Кнопки ---
+        const toTasksBtn = document.getElementById("toTasksBtn");
+        const backToRegisterBtn = document.getElementById("backToRegisterBtn"); // ← Новая кнопка
+        const toCodingBtn = document.getElementById("toCodingBtn");
+        const backBtn = document.getElementById("backBtn");
+        const finishBtn = document.getElementById("finishBtn");
 
-  document.getElementById("userInfo").innerHTML = `
-    <strong>${document.getElementById("lastname").value} ${document.getElementById("firstname").value} ${document.getElementById("middlename").value}</strong><br>
-    Класс: ${classSelect.value}<br>
-    Телефон: ${document.getElementById("phone").value}<br>
-    ${difficultyDiv.textContent}
-  `;
-});
+        // --- Обновление сложности ---
+        classSelect.addEventListener("change", () => {
+            const grade = parseInt(classSelect.value);
+            let diff = "—";
+            if (grade >= 4 && grade <= 6) {
+            diff = "Начальный уровень (5–6 класс)";
+            } else if (grade >= 7 && grade <= 11) {
+            diff = "Средний уровень (7–9 класс)";
+            }
+            difficultyDiv.textContent = `Сложность: ${diff}`;
+        });
 
-// Кнопка завершения олимпиады — отправка данных на Google Apps Script
-document.getElementById("finishBtn").addEventListener("click", () => {
-  document.getElementById("hiddenLastname").value = document.getElementById("lastname").value;
-  document.getElementById("hiddenFirstname").value = document.getElementById("firstname").value;
-  document.getElementById("hiddenMiddlename").value = document.getElementById("middlename").value;
-  document.getElementById("hiddenPhone").value = document.getElementById("phone").value;
-  document.getElementById("hiddenClass").value = classSelect.value;
-  document.getElementById("hiddenDifficulty").value = difficultyInput.value;
+        // --- 1 → 2: Регистрация → Базовые задания ---
+        toTasksBtn.addEventListener("click", () => {
+            const lastname = document.getElementById("lastname").value.trim();
+            const firstname = document.getElementById("firstname").value.trim();
 
-  alert("Форма отправляется. Спасибо за участие!");
-  document.getElementById("hiddenSubmitForm").submit();
-});
-</script>
+            if (!lastname || !firstname || !classSelect.value) {
+                alert("Пожалуйста, заполните все обязательные поля.");
+                return;
+            }
+
+            // Показываем данные
+            // document.getElementById("userInfo").innerHTML = `
+            // <strong>${lastname} ${firstname} ${document.getElementById("middlename").value || ''}</strong><br>
+            // Класс: ${classSelect.value}<br>
+            // Телефон: ${document.getElementById("phone").value || 'не указан'}<br>
+            // ${difficultyDiv.textContent}
+            // `;
+
+            // Сохраняем в скрытые поля
+            document.getElementById("hiddenLastname").value = lastname;
+            document.getElementById("hiddenFirstname").value = firstname;
+            document.getElementById("hiddenMiddlename").value = document.getElementById("middlename").value;
+            document.getElementById("hiddenPhone").value = document.getElementById("phone").value;
+            document.getElementById("hiddenClass").value = classSelect.value;
+            document.getElementById("hiddenDifficulty").value = difficultyDiv.textContent;
+
+            registerForm.classList.add("hidden");
+            tasksPage.classList.remove("hidden");
+        });
+
+        // --- 2 → 1: Назад к регистрации ---
+        backToRegisterBtn.addEventListener("click", () => {
+            tasksPage.classList.add("hidden");
+            registerForm.classList.remove("hidden");
+        });
+
+        // --- 2 → 3: Базовые задания → Программирование ---
+        toCodingBtn.addEventListener("click", () => {
+            const textareas = document.querySelectorAll("#tasksPage textarea");
+            const hiddenForm = document.getElementById("hiddenSubmitForm");
+            const answers = ["q1", "q2", "q3", "q4", "q5"];
+
+            // Очищаем старые ответы (на случай повторного входа)
+            document.querySelectorAll("input[name^='q']").forEach(el => el.remove());
+
+            textareas.forEach((area, i) => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = answers[i];
+            input.value = area.value.trim();
+            hiddenForm.appendChild(input);
+            });
+
+            tasksPage.classList.add("hidden");
+            codingPage.classList.remove("hidden");
+        });
+
+        // --- 3 → 2: Назад к базовым заданиям ---
+        backBtn.addEventListener("click", () => {
+            codingPage.classList.add("hidden");
+            tasksPage.classList.remove("hidden");
+        });
+
+        // --- 3 → Отправка: Завершить ---
+        finishBtn.addEventListener("click", () => {
+            const hiddenForm = document.getElementById("hiddenSubmitForm");
+            const task6 = document.getElementById("task6").value.trim();
+            const task7 = document.getElementById("task7").value.trim();
+            const task8 = document.getElementById("task8").value.trim();
+
+            if (!task6 || !task7 || !task8) {
+            alert("Пожалуйста, заполните все ссылки на Scratch.");
+            return;
+            }
+
+            // Удаляем старые (если были)
+            document.querySelectorAll("input[name^='task']").forEach(el => el.remove());
+
+            const codingInputs = [
+            { name: "task6", value: task6 },
+            { name: "task7", value: task7 },
+            { name: "task8", value: task8 }
+            ];
+
+            codingInputs.forEach(data => {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = data.name;
+            input.value = data.value;
+            hiddenForm.appendChild(input);
+            });
+
+            alert("Форма отправляется. Спасибо за участие!");
+            hiddenForm.submit();
+        });
+    </script>
 
 </body>
 </html>
