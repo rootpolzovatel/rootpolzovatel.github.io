@@ -410,11 +410,6 @@
         const task7 = document.getElementById("task7").value.trim();
         const task8 = document.getElementById("task8").value.trim();
 
-        if (!task6 || !task7 || !task8) {
-            alert("Пожалуйста, заполните все ссылки на Scratch.");
-            return;
-        }
-
         // Показываем модальное окно подтверждения
         confirmModal.classList.remove("hidden");
         confirmModal.style.display = "flex";
