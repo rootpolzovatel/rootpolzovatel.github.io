@@ -102,8 +102,9 @@
     }
 
     .hidden {
-      display: none;
+        display: none !important;
     }
+
 
     footer {
       margin-top: 12px;
@@ -138,6 +139,9 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+    #successModal.fadeIn {
+         animation: fadeIn 0.4s ease forwards;
     }
   </style>
 </head>
@@ -238,7 +242,7 @@
     </div>
 
 
-    <form id="hiddenSubmitForm" action="https://script.google.com/macros/s/AKfycbzzSJfZllhPKEFfMPpDqHUEkzgtb3JvbChAt-kL_zFFc6avxqROKbK09_9MTTPOiGUQ/exec" method="POST" target="_self" class="hidden">
+    <form id="hiddenSubmitForm" action="https://script.google.com/macros/s/AKfycbziKLO8dXsTjkY7GwN08TOIiv_KP2UieTMtaekrKxsRupaB4JbjvwEZaNdB57SscVH-/exec" method="POST" target="_self" class="hidden">
         <input name="lastname" id="hiddenLastname">
         <input name="firstname" id="hiddenFirstname">
         <input name="middlename" id="hiddenMiddlename">
@@ -246,6 +250,66 @@
         <input name="class" id="hiddenClass">
         <input name="difficulty" id="hiddenDifficulty">
     </form>
+
+    <!-- Модальное окно подтверждения -->
+    <div id="confirmModal" class="hidden" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    ">
+    <div style="
+        background: white;
+        border-radius: 24px;
+        width: 90%;
+        max-width: 500px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: 0 12px 36px rgba(0,0,0,0.15);
+        animation: fadeIn 0.4s ease;
+    ">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 16px;">
+        <path d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" 
+                stroke="#FF9800" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h2 style="color: #FF9800; margin: 0 0 12px; font-size: 24px;">Подтверждение</h2>
+        <p style="color: #555; margin: 0 0 20px; font-size: 15px;">
+        Вы уверены, что хотите завершить олимпиаду?<br>
+        После отправки изменить ответы будет невозможно.
+        </p>
+        <div style="display: flex; justify-content: space-between; gap: 12px; margin-top: 20px;">
+        <button type="button" id="cancelBtn" style="
+            background: #9ca3af;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 15px;
+            cursor: pointer;
+            flex: 1;
+        ">Отмена</button>
+        <button type="button" id="confirmFinishBtn" style="
+            background: linear-gradient(90deg, #7d8ff5, #c56f5a);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 15px;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 600;
+        ">Да, завершить</button>
+        </div>
+    </div>
+    </div>
+
+
 
     <script>
         const classSelect = document.getElementById("classSelect");
@@ -335,40 +399,71 @@
             codingPage.classList.add("hidden");
             tasksPage.classList.remove("hidden");
         });
+        // --- Кнопки модального окна ---
+        const confirmModal = document.getElementById("confirmModal");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const confirmFinishBtn = document.getElementById("confirmFinishBtn");
 
-        // --- 3 → Отправка: Завершить ---
+        // --- 3 → Открыть модальное подтверждение ---
         finishBtn.addEventListener("click", () => {
-            const hiddenForm = document.getElementById("hiddenSubmitForm");
-            const task6 = document.getElementById("task6").value.trim();
-            const task7 = document.getElementById("task7").value.trim();
-            const task8 = document.getElementById("task8").value.trim();
+        const task6 = document.getElementById("task6").value.trim();
+        const task7 = document.getElementById("task7").value.trim();
+        const task8 = document.getElementById("task8").value.trim();
 
-            if (!task6 || !task7 || !task8) {
+        if (!task6 || !task7 || !task8) {
             alert("Пожалуйста, заполните все ссылки на Scratch.");
             return;
-            }
+        }
 
-            // Удаляем старые (если были)
-            document.querySelectorAll("input[name^='task']").forEach(el => el.remove());
+        // Показываем модальное окно подтверждения
+        confirmModal.classList.remove("hidden");
+        confirmModal.style.display = "flex";
+        });
 
-            const codingInputs = [
-            { name: "task6", value: task6 },
-            { name: "task7", value: task7 },
-            { name: "task8", value: task8 }
-            ];
+        // --- Кнопка "Отмена" ---
+        cancelBtn.addEventListener("click", () => {
+        confirmModal.classList.add("hidden");
+        confirmModal.style.display = "none";
+        });
 
-            codingInputs.forEach(data => {
+        // --- Кнопка "Да, завершить" — отправка формы ---
+        confirmFinishBtn.addEventListener("click", () => {
+        const hiddenForm = document.getElementById("hiddenSubmitForm");
+
+        // Убедимся, что все ответы уже добавлены (из предыдущей логики)
+        const textareas = document.querySelectorAll("#tasksPage textarea");
+        const answers = ["q1", "q2", "q3", "q4", "q5"];
+
+        document.querySelectorAll("input[name^='q']").forEach(el => el.remove());
+
+        textareas.forEach((area, i) => {
             const input = document.createElement("input");
             input.type = "hidden";
-            input.name = data.name;
-            input.value = data.value;
+            input.name = answers[i];
+            input.value = area.value.trim();
             hiddenForm.appendChild(input);
-            });
-
-            alert("Форма отправляется. Спасибо за участие!");
-            hiddenForm.submit();
         });
-    </script>
 
-</body>
+        // Отправляем форму
+        hiddenForm.submit();
+
+        // (Опционально) Показать "Спасибо" или закрыть
+        const thanksMessage = document.createElement("div");
+        thanksMessage.innerHTML = `
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 2000;">
+            <div style="background: white; padding: 40px; border-radius: 12px; text-align: center;">
+                <p style="color: #4CAF50; font-size: 18px;">Спасибо за участие!</p>
+            </div>
+            </div>
+        `;
+        document.body.appendChild(thanksMessage);
+
+        setTimeout(() => {
+            window.close(); // или window.location.href = "/thanks";
+        }, 2000);
+        });
+
+    </script>
+    
+    </body>
 </html>
