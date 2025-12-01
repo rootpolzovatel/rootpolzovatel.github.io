@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Практические задания</title>
+
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="container" id="practicePage">
+			<h1>Блок «Программирование»</h1>
+
+			<div class="tasks">
+				<!-- Задание 6 -->
+				<label>
+					<span class="task-number">Задание №6.</span>
+					Разработка анимационного проекта «DVD-анимация»
+				</label>
+				<input type="url" id="task6" placeholder="Ссылка на решение в Scratch" />
+
+				<div class="task-img">
+					<img src="asseets/images/DVD.gif" alt="DVD-анимация" />
+				</div>
+				<p class="task-desc">Смена цвета и направления при соприкосновении со стеной</p>
+
+				<label>
+					<span class="task-number">Задание №7.</span>
+					Реализация секундомера
+				</label>
+				<input type="url" id="task7" placeholder="Ссылка на решение в Scratch" />
+
+				<div class="task-img">
+					<img src="asseets/images/TIME.gif" alt="Секундомер" />
+				</div>
+				<p class="task-desc">Секундомер с 00 до 99</p>
+
+				<label>
+					<span class="task-number">Задание №8.</span>
+					Игра «Крестики-нолики» без логики победы
+				</label>
+				<input type="url" id="task8" placeholder="Ссылка на решение в Scratch" />
+
+				<div class="task-img">
+					<img src="asseets/images/XO.gif" alt="Крестики-нолики" />
+				</div>
+				<p class="task-desc">
+					Поле 3×3, игроки ходят по очереди, победитель не определяется
+				</p>
+
+				<!-- Кнопки -->
+				<div class="task-buttons">
+					<button type="button" id="practiceBackBtn" style="background: #9ca3af">
+						Назад
+					</button>
+					<button type="button" id="sendBtn">Завершить олимпиаду</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="submitModal" class="modal hidden">
+			<div class="modal-window">
+				<h2>Подтверждение</h2>
+				<p>
+					Вы уверены, что хотите отправить ответы? После отправки изменить данные будет
+					нельзя.
+				</p>
+				<div
+					style="
+						display: flex;
+						justify-content: space-between;
+						gap: 10px;
+						margin-top: 20px;
+					"
+				>
+					<button
+						id="closeModalBtn"
+						style="
+							flex: 1;
+							padding: 10px;
+							border: none;
+							border-radius: 8px;
+							background: #9ca3af;
+							color: white;
+						"
+					>
+						Закрыть
+					</button>
+					<button
+						id="confirmSubmitBtn"
+						style="
+							flex: 1;
+							padding: 10px;
+							border: none;
+							border-radius: 8px;
+							background: #7d8ff5;
+							color: white;
+						"
+					>
+						Отправить
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="practice.js"></script>
+	</body>
+</html>
