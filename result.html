@@ -256,14 +256,34 @@ function renderList(data) {
                 <p><strong>Задание 4:</strong> ${item.q4 || "—"}</p>
                 <p><strong>Задание 5:</strong> ${item.q5 || "—"}</p>
 
-                <p><strong>Задание 6:</strong></p>
-                ${embedScratchProject(item.task6)}
+          
+<p><strong>Задание 6 (DVD):</strong></p>
+${
+  item.task6
+    ? (item.task6.startsWith("http")
+        ? embedScratchProject(item.task6)
+        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task6}</pre>`)
+    : "<p><em>Проект не загружен</em></p>"
+}
 
-                <p><strong>Задание 7:</strong></p>
-                ${embedScratchProject(item.task7)}
+<p><strong>Задание 7 (Секундомер):</strong></p>
+${
+  item.task7
+    ? (item.task7.startsWith("http")
+        ? embedScratchProject(item.task7)
+        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task7}</pre>`)
+    : "<p><em>Проект не загружен</em></p>"
+}
 
-                <p><strong>Задание 8:</strong></p>
-                ${embedScratchProject(item.task8)}
+<p><strong>Задание 8 (Крестики-нолики):</strong></p>
+${
+  item.task8
+    ? (item.task8.startsWith("http")
+        ? embedScratchProject(item.task8)
+        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task8}</pre>`)
+    : "<p><em>Проект не загружен</em></p>"
+}
+
             </div>
         </div>
     `).join("");
