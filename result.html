@@ -235,7 +235,10 @@ async function loadData() {
 function renderTaskContent(taskValue) {
     if (!taskValue) return "<p><em>Задание не выполнено</em></p>";
 
-    const scratchMatch = taskValue.trim().match(/\/projects\/(\d+)/);
+    // Преобразуем в строку
+    const valueStr = String(taskValue).trim();
+
+    const scratchMatch = valueStr.match(/\/projects\/(\d+)/);
     if (scratchMatch) {
         const projectId = scratchMatch[1];
         return `
@@ -248,14 +251,14 @@ function renderTaskContent(taskValue) {
                 allow="clipboard-read; clipboard-write">
             </iframe>
             <p style="margin-top: 8px; font-size: 13px; color: #666;">
-                <a href="${taskValue}" target="_blank" style="color: #7d8ff5;">Открыть в новой вкладке</a>
+                <a href="${valueStr}" target="_blank" style="color: #7d8ff5;">Открыть в новой вкладке</a>
             </p>
         </div>`;
     } else {
-        // Выводим текст кода
-        return `<pre style="background:#f8faff; padding:10px; border-radius:8px; overflow-x:auto;">${taskValue}</pre>`;
+        return `<pre style="background:#f8faff; padding:10px; border-radius:8px; overflow-x:auto;">${valueStr}</pre>`;
     }
 }
+
 
 function renderList(data) {
     if (!data || data.length === 0) {
