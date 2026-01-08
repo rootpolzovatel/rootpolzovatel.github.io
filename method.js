@@ -1,16 +1,32 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+	const backBtn = document.getElementById('methodBackBtn')
+	const toCodingBtn = document.getElementById('methodToCodingBtn')
 
-  const backBtn = document.getElementById("methodBackBtn");
-  const toCodingBtn = document.getElementById("methodToCodingBtn");
+	const cls = localStorage.getItem('class')
+	let theoryPage = ''
+	let practicePage = ''
 
-  // Назад — переход на страницу выбора типа задач
-  backBtn.addEventListener("click", () => {
-    window.location.href = "theory.html";
-  });
+	if (cls === '5' || cls === '6') {
+		theoryPage = 'theory_beginner.html'
+		practicePage = 'practice_beginner.html'
+	} else if (cls === '7' || cls === '8' || cls === '9' || cls === '10' || cls === '11') {
+		theoryPage = 'theory_middle.html'
+		practicePage = 'practice_middle.html'
+	}
 
-  // Переход к заданиям по программированию
-  toCodingBtn.addEventListener("click", () => {
-    window.location.href = "practice.html";
-  });
+	backBtn.addEventListener('click', () => {
+		if (!theoryPage) {
+			alert('Ошибка определения уровня')
+			return
+		}
+		window.location.href = theoryPage
+	})
 
-});
+	toCodingBtn.addEventListener('click', () => {
+		if (!practicePage) {
+			alert('Ошибка определения уровня')
+			return
+		}
+		window.location.href = practicePage
+	})
+})

@@ -39,20 +39,35 @@ classSelect.addEventListener("change", () => {
 document.getElementById("toTasksBtn").addEventListener("click", (e) => {
     e.preventDefault();
 
-    const values = {
-        lastname: document.getElementById("lastname").value.trim(),
-        firstname: document.getElementById("firstname").value.trim(),
-        phone: document.getElementById("phone").value.trim(),
-        classSelect: classSelect.value
-    };
+    const lastname = document.getElementById("lastname").value.trim();
+    const firstname = document.getElementById("firstname").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const cls = classSelect.value;
 
-    if (!values.lastname || !values.firstname || !values.phone || !values.classSelect) {
+    if (!lastname || !firstname || !phone || !cls) {
         alert("Заполните все поля.");
         return;
     }
 
-    window.location.href = "theory.html";
+    let targetPage = "";
+
+    const beginnerClasses = ["5", "6"];
+    const middleClasses = ["7", "8", "9", "10", "11"];
+
+    if (beginnerClasses.includes(cls)) {
+        targetPage = "theory_beginner.html";
+    } else if (middleClasses.includes(cls)) {
+        targetPage = "theory_middle.html";
+    }
+
+    if (!targetPage) {
+        alert("Ошибка определения уровня сложности.");
+        return;
+    }
+
+    window.location.href = targetPage;
 });
+
 
 function updateDifficulty(cls) {
     if (cls === "5" || cls === "6") {
@@ -60,7 +75,7 @@ function updateDifficulty(cls) {
     } else if (cls === "7" || cls === "8" || cls === "9") {
         difficultyDiv.textContent = "Сложность: Средний уровень (7–9 класс)";
     } else if (cls === "10" || cls === "11") {
-        difficultyDiv.textContent = "Сложность: Продвинутый уровень (10–11 класс)";
+        difficultyDiv.textContent = "Сложность: Средний уровень (7–9 класс)";
     } else {
         difficultyDiv.textContent = "Сложность: —";
     }

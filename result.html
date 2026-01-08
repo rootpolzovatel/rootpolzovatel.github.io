@@ -181,54 +181,149 @@
     <script>
       const participantsList = document.getElementById("participantsList");
       const classFilter = document.getElementById("classFilter");
+      const levelFilter = document.getElementById("levelFilter");
       const searchInput = document.getElementById("searchInput");
-      let allData = []; // Храним все данные
+      let allData = [];
 
-      // === Функция: извлекает ID проекта и возвращает iframe ===
+      // === Вставка проекта Scratch ===
       function embedScratchProject(url) {
         try {
+          if (!url || !url.trim()) return "<p><em>Проект не загружен</em></p>";
           const match = url.trim().match(/\/projects\/(\d+)/);
-          if (!match) {
-            return "<p><em>Некорректная ссылка</em></p>";
-          }
+          if (!match) return "<p><em>Некорректная ссылка</em></p>";
           const projectId = match[1];
-          const iframe = `
-        <div style="text-align: center; margin: 10px 0;">
-            <iframe 
-            src="https://scratch.mit.edu/projects/${projectId}/embed"
-            width="485" 
-            height="402" 
-            style="
-                border: none; 
-                border-radius: 12px; 
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-                max-width: 100%;
-            "
-            frameborder="0" 
-            scrolling="no" 
-            allowfullscreen
-            allow="clipboard-read; clipboard-write"
-            ></iframe>
-            <p style="margin-top: 8px; font-size: 13px; color: #666;">
-            <a href="${url}" target="_blank" style="color: #7d8ff5;">Открыть в новой вкладке</a>
-            </p>
-        </div>
-        `;
-          return iframe;
+          return `
+            <div style="text-align: center; margin: 10px 0;">
+                <iframe 
+                src="https://scratch.mit.edu/projects/${projectId}/embed"
+                width="485" 
+                height="402" 
+                style="
+                    border: none; 
+                    border-radius: 12px; 
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                    max-width: 100%;
+                "
+                frameborder="0" 
+                scrolling="no" 
+                allowfullscreen
+                allow="clipboard-read; clipboard-write"
+                ></iframe>
+                <p style="margin-top: 8px; font-size: 13px; color: #666;">
+                <a href="${url}" target="_blank" style="color: #7d8ff5;">Открыть в новой вкладке</a>
+                </p>
+            </div>
+          `;
         } catch (e) {
           return "<p><em>Ошибка при загрузке проекта</em></p>";
         }
       }
 
-      // Загрузка данных из Google Sheets
-      async function loadData() {
-        try {
-          participantsList.innerHTML =
-            '<div class="empty">Загрузка данных...</div>';
+      // === Отображение списка участников ===
+      function renderList(data) {
+        if (!data || data.length === 0) {
+          participantsList.innerHTML = `<div class="empty">Нет участников по заданным критериям</div>`;
+          return;
+        }
 
-          const response = await fetch(
-            "https://script.google.com/macros/s/AKfycbwoYk_H0hwgpuQnmxJ7XvTd9R8Td7vK-_AW4azseoItXZU-oPH9PMiy3jRhNcIoJvPB/exec"
+        participantsList.innerHTML = data
+          .map((item, index) => `
+            <div class="participant-item" data-index="${index}">
+              <div class="participant-header">
+                <div class="participant-info">
+                  <span class="num">${index + 1}.</span>
+                  <span><strong>${item.familiya || ""} ${item.imya || ""} ${item.otchestvo || ""}</strong></span>
+                  <span>· ${item.class || "?"} класс</span>
+                  <span>· ${item.telephon || "Телефон не указан"}</span>
+                  <span>· ${item.vremya || "—"}</span>
+                </div>
+              </div>
+
+              <div class="details">
+                <p><strong>Задание 1:</strong> ${item.q1 || "—"}</p>
+                <p><strong>Задание 2:</strong> ${item.q2 || "—"}</p>
+                <p><strong>Задание 3:</strong> ${item.q3 || "—"}</p>
+                <p><strong>Задание 4:</strong> ${item.q4 || "—"}</p>
+                <p><strong>Задание 5:</strong> ${item.q5 || "—"}</p>
+
+                <!-- Практические задания: task6, task7, task8 -->
+                <p><strong>Задание 6:</strong></p>
+                ${
+                item.task6
+                    ? (item.task6.startsWith("http")
+                        ? embedScratchProject(item.task6)
+                        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task6}</pre>`)
+                    : "<p><em>Проект не загружен</em></p>"
+                }
+                <p><strong>Задание 7:</strong></p>
+                ${
+                item.task7
+                    ? (item.task7.startsWith("http")
+                        ? embedScratchProject(item.task7)
+                        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task7}</pre>`)
+                    : "<p><em>Проект не загружен</em></p>"
+                }
+                <p><strong>Задание 8:</strong></p>
+                ${
+                item.task8
+                    ? (item.task8.startsWith("http")
+                        ? embedScratchProject(item.task8)
+                        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task8}</pre>`)
+                    : "<p><em>Проект не загружен</em></p>"
+                }
+
+              </div>
+            </div>
+          `)
+          .join("");
+
+        // Раскрытие деталей
+        document.querySelectorAll(".participant-header").forEach(header => {
+          header.addEventListener("click", function () {
+            const details = this.nextElementSibling;
+            details.style.display = details.style.display === "block" ? "none" : "block";
+            this.classList.toggle("open");
+          });
+        });
+      }
+
+      // === Фильтрация ===
+      function filterData() {
+        const classValue = classFilter.value;
+        const levelValue = levelFilter.value;
+        const searchValue = searchInput.value.toLowerCase().trim();
+
+        let filtered = allData;
+
+        if (classValue) {
+          filtered = filtered.filter(d => d.class == classValue);
+        }
+
+        if (levelValue) {
+          filtered = filtered.filter(d => {
+            const slozhnost = d.slojnost || '';
+            if (levelValue === "Сложность: Начальный уровень (5–6 класс)") return slozhnost.includes("Сложность: Начальный уровень (5–6 класс)");
+            if (levelValue === "Сложность: Средний уровень (7–9 класс)") return slozhnost.includes("Сложность: Средний уровень (7–9 класс)");
+            return false;
+          });
+        }
+
+        if (searchValue) {
+          filtered = filtered.filter(d => 
+            (d.familiya || '').toLowerCase().includes(searchValue) ||
+            (d.imya || '').toLowerCase().includes(searchValue) ||
+            (d.otchestvo || '').toLowerCase().includes(searchValue)
           );
+        }
+
+        renderList(filtered);
+      }
+
+      // === Загрузка данных ===
+      async function loadData() {
+        participantsList.innerHTML = '<div class="empty">Загрузка данных...</div>';
+        try {
+          const response = await fetch("https://script.google.com/macros/s/AKfycbwoYk_H0hwgpuQnmxJ7XvTd9R8Td7vK-_AW4azseoItXZU-oPH9PMiy3jRhNcIoJvPB/exec");
           const result = await response.json();
 
           if (result.error) {
@@ -238,121 +333,17 @@
           }
 
           allData = result.data;
-          filterData(); // Отображаем данные
+          filterData();
         } catch (err) {
           participantsList.innerHTML = `<div class="empty">Не удалось подключиться к таблице. Проверьте соединение.</div>`;
           console.error(err);
         }
       }
 
-      function renderList(data) {
-        if (!data || data.length === 0) {
-          participantsList.innerHTML = `<div class="empty">Нет участников по заданным критериям</div>`;
-          return;
-        }
-
-        participantsList.innerHTML = data
-          .map(
-            (item, index) => `
-            <div class="participant-item" data-index="${index}">
-            <div class="participant-header">
-                <div class="participant-info">
-                <span class="num">${index + 1}.</span>
-                <span><strong>${item.familiya || ""} ${item.imya || ""} ${
-              item.otchestvo || ""
-            }</strong></span>
-                <span>· ${item.class || "?"} класс</span>
-                <span>· ${item.telephon || "Телефон не указан"}</span>
-                <span>· ${item.vremya || "—"}</span>
-                </div>
-            </div>
-            <div class="details">
-                <p><strong>Задание 1:</strong> ${item.q1 || "—"}</p>
-                <p><strong>Задание 2:</strong> ${item.q2 || "—"}</p>
-                <p><strong>Задание 3:</strong> ${item.q3 || "—"}</p>
-                <p><strong>Задание 4:</strong> ${item.q4 || "—"}</p>
-                <p><strong>Задание 5:</strong> ${item.q5 || "—"}</p>
-
-                <!-- Задание 6 -->
-                <p><strong>Задание 6 (DVD):</strong></p>
-                ${
-                  item.task6
-                    ? embedScratchProject(item.task6)
-                    : "<p><em>Проект не загружен</em></p>"
-                }
-
-                <!-- Задание 7 -->
-                <p><strong>Задание 7 (Секундомер):</strong></p>
-                ${
-                  item.task7
-                    ? embedScratchProject(item.task7)
-                    : "<p><em>Проект не загружен</em></p>"
-                }
-
-                <!-- Задание 8 -->
-                <p><strong>Задание 8 (Крестики-нолики):</strong></p>
-                ${
-                  item.task8
-                    ? embedScratchProject(item.task8)
-                    : "<p><em>Проект не загружен</em></p>"
-                }
-            </div>
-            </div>
-        `
-          )
-          .join("");
-
-        // Обработчики кликов
-        document.querySelectorAll(".participant-header").forEach((header) => {
-          header.addEventListener("click", function () {
-            const details = this.nextElementSibling;
-            details.style.display =
-              details.style.display === "block" ? "none" : "block";
-          });
-        });
-      }
-
-      function filterData() {
-        const classValue = classFilter.value;
-        const levelValue = levelFilter.value; // "Начальный" или "Средний"
-        const searchValue = searchInput.value.toLowerCase().trim();
-
-        let filtered = allData;
-
-        // Фильтр по классу
-        if (classValue) {
-            filtered = filtered.filter(d => d.class == classValue);
-        }
-
-        // Фильтр по уровню сложности
-        if (levelValue) {
-            filtered = filtered.filter(d => {
-            const slozhnost = d.slojnost || '';
-            if (levelValue === "Сложность: Начальный уровень (5–6 класс)") return slozhnost.includes("Сложность: Начальный уровень (5–6 класс)");
-            if (levelValue === "Сложность: Средний уровень (7–9 класс)") return slozhnost.includes("Сложность: Средний уровень (7–9 класс)");
-            return false;
-            });
-        }
-
-        // Поиск по ФИО
-        if (searchValue) {
-            filtered = filtered.filter(d => 
-            (d.familiya || '').toLowerCase().includes(searchValue) ||
-            (d.imya || '').toLowerCase().includes(searchValue) ||
-            (d.otchestvo || '').toLowerCase().includes(searchValue)
-            );
-        }
-
-        renderList(filtered);
-        }
-
-
-      // Слушатели
       classFilter.addEventListener("change", filterData);
       levelFilter.addEventListener("change", filterData);
       searchInput.addEventListener("input", filterData);
 
-      // Загрузка при старте
       window.addEventListener("load", loadData);
     </script>
   </body>

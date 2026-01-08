@@ -198,12 +198,6 @@ footer {
 
 
 /* Практические задания */
-#practicePage {
-  width: 720px;
-  max-width: 95vw;
-  padding: 40px 32px;
-}
-
 .task-img {
   text-align: center;
   margin: 16px 0;
@@ -213,14 +207,6 @@ footer {
   max-width: 100%;
   border-radius: 12px;
   border: 2px solid #e0e0ff;
-}
-
-.task-desc {
-  font-size: 13px;
-  color: #666;
-  text-align: center;
-  margin-top: -24px;
-  margin-bottom: 20px;
 }
 
 .task-buttons {
@@ -256,4 +242,90 @@ footer {
 /* Скрыть элемент */
 .hidden {
     display: none !important;
+}
+/* ===== Методические блоки — текст внутри ===== */
+.method-block p,
+.method-block ul,
+.method-block ol {
+    font-size: 15.5px;           /* комфортный размер текста */
+    line-height: 1.75;           /* увеличенное межстрочное расстояние для читаемости */
+    color: #374151;               /* мягкий темный цвет */
+    margin-bottom: 16px;          /* расстояние между параграфами */
+}
+
+/* Списки внутри блоков */
+.method-block ul,
+.method-block ol {
+    padding-left: 24px;           /* отступ слева */
+}
+
+.method-block li {
+    margin-bottom: 8px;           /* расстояние между пунктами */
+}
+
+/* Жирный текст и акценты */
+.method-block strong {
+    color: #1f2937;               /* чуть темнее для акцента */
+    font-weight: 600;
+}
+
+/* Кодовые вставки */
+.method-block code {
+    background: #e2e8f0;
+    color: #0f172a;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: "Courier New", monospace;
+}
+
+/* Заголовки внутри блока */
+.method-block h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #4f46e5;               /* градиент можно оставить для выделения */
+}
+
+/* Изображения и видео */
+.method-block .method-img {
+    margin: 16px 0;
+    text-align: center;
+}
+
+.method-block .method-img img,
+.method-block .method-img video {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 1px solid #b8d9ff;
+}
+
+/* Важные примечания */
+.method-warning {
+    background: #e6f7ff;
+    border-left: 4px solid #1890ff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #0c4a6e;
+    margin-top: 12px;
+    line-height: 1.6;
+}
+
+/* Ссылки внутри блоков */
+.method-block a {
+    color: #6366f1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.method-block a:hover {
+    text-decoration: underline;
+}
+.description-label{
+    margin-top: -20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
 }
