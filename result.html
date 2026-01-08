@@ -232,13 +232,39 @@ async function loadData() {
 }
 
 // Отрисовка списка участников
+function renderTaskContent(taskValue) {
+    if (!taskValue) return "<p><em>Задание не выполнено</em></p>";
+
+    const scratchMatch = taskValue.trim().match(/\/projects\/(\d+)/);
+    if (scratchMatch) {
+        const projectId = scratchMatch[1];
+        return `
+        <div style="text-align: center; margin: 10px 0;">
+            <iframe 
+                src="https://scratch.mit.edu/projects/${projectId}/embed"
+                width="485" height="402"
+                style="border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); max-width: 100%;"
+                frameborder="0" scrolling="no" allowfullscreen
+                allow="clipboard-read; clipboard-write">
+            </iframe>
+            <p style="margin-top: 8px; font-size: 13px; color: #666;">
+                <a href="${taskValue}" target="_blank" style="color: #7d8ff5;">Открыть в новой вкладке</a>
+            </p>
+        </div>`;
+    } else {
+        // Выводим текст кода
+        return `<pre style="background:#f8faff; padding:10px; border-radius:8px; overflow-x:auto;">${taskValue}</pre>`;
+    }
+}
+
 function renderList(data) {
     if (!data || data.length === 0) {
-        participantsList.innerHTML = `<div class="empty">Нет участников</div>`;
+        participantsList.innerHTML = `<div class="empty">Нет участников по заданным критериям</div>`;
         return;
     }
 
-    participantsList.innerHTML = data.map((item, index) => `
+    participantsList.innerHTML = data
+        .map((item, index) => `
         <div class="participant-item" data-index="${index}">
             <div class="participant-header">
                 <div class="participant-info">
@@ -256,43 +282,27 @@ function renderList(data) {
                 <p><strong>Задание 4:</strong> ${item.q4 || "—"}</p>
                 <p><strong>Задание 5:</strong> ${item.q5 || "—"}</p>
 
-          
-<p><strong>Задание 6 (DVD):</strong></p>
-${
-  item.task6
-    ? (item.task6.startsWith("http")
-        ? embedScratchProject(item.task6)
-        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task6}</pre>`)
-    : "<p><em>Проект не загружен</em></p>"
-}
+                <!-- Задание 6 -->
+                <p><strong>Задание 6:</strong></p>
+                ${renderTaskContent(item.task6)}
 
-<p><strong>Задание 7 (Секундомер):</strong></p>
-${
-  item.task7
-    ? (item.task7.startsWith("http")
-        ? embedScratchProject(item.task7)
-        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task7}</pre>`)
-    : "<p><em>Проект не загружен</em></p>"
-}
+                <!-- Задание 7 -->
+                <p><strong>Задание 7:</strong></p>
+                ${renderTaskContent(item.task7)}
 
-<p><strong>Задание 8 (Крестики-нолики):</strong></p>
-${
-  item.task8
-    ? (item.task8.startsWith("http")
-        ? embedScratchProject(item.task8)
-        : `<pre style="background:#f0f4ff; padding:12px; border-radius:8px; overflow-x:auto;">${item.task8}</pre>`)
-    : "<p><em>Проект не загружен</em></p>"
-}
-
+                <!-- Задание 8 -->
+                <p><strong>Задание 8:</strong></p>
+                ${renderTaskContent(item.task8)}
             </div>
         </div>
     `).join("");
 
-    // Клик по заголовку раскрывает/скрывает детали
-    document.querySelectorAll(".participant-header").forEach(header => {
-        header.addEventListener("click", function() {
+    // Обработчики кликов по заголовку
+    document.querySelectorAll(".participant-header").forEach((header) => {
+        header.addEventListener("click", function () {
             const details = this.nextElementSibling;
-            details.style.display = details.style.display === "block" ? "none" : "block";
+            details.style.display =
+                details.style.display === "block" ? "none" : "block";
         });
     });
 }
